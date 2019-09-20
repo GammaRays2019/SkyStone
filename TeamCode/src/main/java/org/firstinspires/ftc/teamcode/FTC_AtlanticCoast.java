@@ -25,7 +25,7 @@ public class FTC_AtlanticCoast extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        final double ARM_POWER = 0.6;
+        final double ARM_POWER = 0.2;
 
         //Motors
         motor_1 = hardwareMap.get(DcMotor.class, "motor_1");
@@ -63,9 +63,9 @@ public class FTC_AtlanticCoast extends LinearOpMode {
             if (-gamepad2.right_stick_y <= -0.2)  {
                 armPower = ARM_POWER;
             } else if(-gamepad2.right_stick_y >= 0.2) {
-                armPower = ARM_POWER;
+                armPower = -ARM_POWER;
             } else {
-                armPower = -gamepad2.left_stick_y;
+                armPower = (-gamepad2.left_stick_y * 0.3);
             }
             armPower = Range.clip(armPower, -1.0, 1.0);
 
