@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -18,8 +17,6 @@ public class FTC_AtlanticCoast extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor motor_1 = null;
     private DcMotor motor_2 = null;
-    //private DcMotor motor_3 = null;
-    //private DcMotor motor_4 = null;
     private DcMotor armMotor = null;
     //private CRServo stoneFlap = null;
     private Servo stoneFlap = null;
@@ -39,9 +36,11 @@ public class FTC_AtlanticCoast extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        //Motor power constants
         final double ARM_POWER = 0.5;
 
         //Motors
@@ -49,10 +48,9 @@ public class FTC_AtlanticCoast extends LinearOpMode {
         motor_2 = hardwareMap.get(DcMotor.class, "motor_2");
         armMotor = hardwareMap.get(DcMotor.class, "arm_motor");
 
-
         motor_1.setDirection(DcMotor.Direction.FORWARD);
         motor_2.setDirection(DcMotor.Direction.REVERSE);
-        armMotor.setDirection(DcMotor.Direction.REVERSE);
+        armMotor.setDirection(DcMotor.Direction.FORWARD);
 
         //CR Servo
         //stoneFlap = hardwareMap.get(CRServo.class, "stone_flap");
@@ -62,25 +60,28 @@ public class FTC_AtlanticCoast extends LinearOpMode {
         stoneFlap = hardwareMap.get(Servo.class, "stone_flap");
         double stoneFlapServoDelta = 0;
 
-        //Motor Power
-
         //To switch between power levels of drive motors
         boolean highPower = false;
 
+        //Define and  initialize power variables
         double leftPower = 0;
         double rightPower = 0;
-        //double motor3Power = 0;
-        //double motor4Power = 0;
         double armPower = 0;
 
-        double stoneFlapInitPosition = 0.5;
+        //Servo position constants
+        final double STONE_FLAP_INIT = 0.5;
 
-        stoneFlap.setPosition(stoneFlapInitPosition);
+        //Initialize servo positions
+        stoneFlap.setPosition(STONE_FLAP_INIT);
 
         waitForStart();
         runtime.reset();
 
         while (opModeIsActive()) {
+
+            //------------------------------
+            // Drive-train control
+            //------------------------------
 
             //Code for switching between 2 drive power modes
 
@@ -130,7 +131,6 @@ public class FTC_AtlanticCoast extends LinearOpMode {
             }
             */
 
-            //Intended functionality:
             //Press A to switch to highPower mode (highPower = true)
             //Press B to switch to low-power mode (highPower = false)
             if (gamepad1.a) {
@@ -149,13 +149,18 @@ public class FTC_AtlanticCoast extends LinearOpMode {
                 rightPower = -gamepad1.right_stick_y;
             } else {
                 leftPower = (-gamepad1.left_stick_y * 0.5);
-                rightPower = (-gamepad1.left_stick_y * 0.5);
+                rightPower = (-gamepad1.right_stick_y * 0.5);
             }
 
-            //Arm motor control
-            armPower = (-gamepad2.left_stick_y * 0.6);
+            //--------------------------------
+            // Arm motor control
+            //--------------------------------
+            armPower = (-gamepad2.left_stick_y * ARM_POWER);
             armPower = Range.clip(armPower, -1.0, 1.0);
 
+            //--------------------------------
+            // stoneFlap Servo control
+            //--------------------------------
             /*
             //stoneFlap CRServo control
             if (gamepad2.dpad_left) {
@@ -166,67 +171,8 @@ public class FTC_AtlanticCoast extends LinearOpMode {
                 stoneFlap.setPower(0.0);
             }
             */
-
-            //stoneFlap Servo control
-
-            /*
-            while (-gamepad2.right_stick_y >= 0.1 || -gamepad2.right_stick_y <= -0.1) {
-                if (-gamepad2.right_stick_y >= 0.1 && -gamepad2.right_stick_y < 0.5) {
-                    stoneFlapPosition = stoneFlap.getPosition() + 0.05;
-                } else if (-gamepad2.right_stick_y >= 0.5) {
-                    stoneFlapPosition = stoneFlap.getPosition() + 0.10;
-                } else if (-gamepad2.right_stick_y <= -0.1 && -gamepad2.right_stick_y > -0.5) {
-                    stoneFlapPosition = stoneFlap.getPosition() - 0.05;
-                } else if (-gamepad2.right_stick_y <= -0.5) {
-                    stoneFlapPosition = stoneFlap.getPosition() - 0.10;
-                } else {
-                    stoneFlapPosition = stoneFlap.getPosition();
-                }
-            }
-            */
-            /* TO-DO Can simplify this code by having the stick position just alter the value of a variable servoDelta (can be zero), servo position will only be set in one place [DONE]*/
-            /*
+            //May want to make an alternate version of the teleop thst splits the TeleOp program into two threads (FTC_AtlanticCoast_multithreaded ?)
             if (-gamepad2.right_stick_y >= 0.1 || -gamepad2.right_stick_y <= -0.1) {
-                if (-gamepad2.right_stick_y >= 0.1 && -gamepad2.right_stick_y < 0.5) {
-                    while (-gamepad2.right_stick_y >= 0.1 && -gamepad2.right_stick_y < 0.5) {
-                        stoneFlapPosition = stoneFlap.getPosition() + 0.05;
-                    }
-                } else if (-gamepad2.right_stick_y >= 0.5) {
-                    while (-gamepad2.right_stick_y >= 0.5) {
-                        stoneFlapPosition = stoneFlap.getPosition() + 0.10;
-                    }
-                } else if (-gamepad2.right_stick_y <= -0.1 && -gamepad2.right_stick_y > -0.5) {
-                    while (-gamepad2.right_stick_y <= -0.1 && -gamepad2.right_stick_y > -0.5) {
-                        stoneFlapPosition = stoneFlap.getPosition() - 0.05;
-                    }
-                } else if (-gamepad2.right_stick_y <= -0.5) {
-                    while (-gamepad2.right_stick_y <= -0.5) {
-                        stoneFlapPosition = stoneFlap.getPosition() - 0.10;
-                    }
-                } else {
-                    stoneFlapPosition = stoneFlap.getPosition();
-                }
-            }
-            */
-            /*
-            while (-gamepad2.right_stick_y >= 0.1 && -gamepad2.right_stick_y < 0.5) {
-                stoneFlapPosition = stoneFlap.getPosition() + 0.05;
-            }
-            while (-gamepad2.right_stick_y >= 0.5) {
-                stoneFlapPosition = stoneFlap.getPosition() + 0.10;
-            }
-            while (-gamepad2.right_stick_y <= -0.1 && -gamepad2.right_stick_y > -0.5) {
-                stoneFlapPosition = stoneFlap.getPosition() - 0.05;
-            }
-            while (-gamepad2.right_stick_y <= -0.5) {
-                stoneFlapPosition = stoneFlap.getPosition() - 0.10;
-            }
-            */
-
-            //Check if servo and drive motors can reliably be driven simultaneously.
-            //If they can't, may need to modify this code/change from a while loop to something else (try just if ?)
-            //OR split the TeleOp program into two threads
-            while (-gamepad2.right_stick_y >= 0.1 || -gamepad2.right_stick_y <= -0.1) {
                 if (-gamepad2.right_stick_y >= 0.1 && -gamepad2.right_stick_y < 0.5) {
                     stoneFlapServoDelta = 0.05;
                 } else if (-gamepad2.right_stick_y >= 0.5) {
@@ -235,26 +181,17 @@ public class FTC_AtlanticCoast extends LinearOpMode {
                     stoneFlapServoDelta = -0.05;
                 } else if (-gamepad2.right_stick_y <= -0.5) {
                     stoneFlapServoDelta = -0.10;
-                } else {
-                    stoneFlapServoDelta = 0;
                 }
-            }
-
-            /*
-            while (gamepad2.x) {
-                stoneFlapPosition = stoneFlap.getPosition() - 0.01;
-            }
-            while (gamepad2.b) {
-                stoneFlapPosition = stoneFlap.getPosition() + 0.01;
-            }
-            */
-
-            //may need to change to "if" here if this interrupts drive motor control
-            while (gamepad2.x) {
+            } else if (gamepad2.x) {
                 stoneFlapServoDelta = -0.01;
-            }
-            while (gamepad2.b) {
+            } else if (gamepad2.b) {
                 stoneFlapServoDelta = 0.01;
+            } else {
+                stoneFlapServoDelta = 0.0;
+            }
+
+            if (gamepad2.a) {
+                stoneFlap.setPosition(0.0);
             }
 
             motor_1.setPower(leftPower);
