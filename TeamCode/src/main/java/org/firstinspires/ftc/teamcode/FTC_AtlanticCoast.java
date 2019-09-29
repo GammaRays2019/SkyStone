@@ -21,19 +21,6 @@ public class FTC_AtlanticCoast extends LinearOpMode {
     //private CRServo stoneFlap = null;
     private Servo stoneFlap = null;
 
-    /*
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //Button State Change detectors for switching between high and low power modes//Adapted from Arduino "State Change Detection" Tutorial//
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private int aButtonChangeCounter = 0;
-    private boolean aButtonState = false;
-    private boolean lastAButtonState = false;
-    private int bButtonChangeCounter = 0;
-    private boolean bButtonState = false;
-    private boolean lastBButtonState = false;
-    //^ as of 2019/09/27, currently using one button (a) as toggle, to utilize two buttons, uncomment code below
-    */
-
     @Override
     public void runOpMode() {
 
@@ -84,52 +71,6 @@ public class FTC_AtlanticCoast extends LinearOpMode {
             //------------------------------
 
             //Code for switching between 2 drive power modes
-
-            /*
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            //Button State Change detectors for switching between high and low power modes//Adapted from Arduino "State Change Detection" Tutorial//
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            aButtonState = gamepad1.a;
-            //bButtonState = gamepad1.b;
-            //Compare the button state to its previous state
-            if (aButtonState != lastAButtonState) {
-                //if the current state is true, then the button
-                aButtonChangeCounter++;
-                //Delay a little bit to avoid bouncing??? -- but we are handling bouncing, so this may not be necessary now
-                //sleep(50);
-            }
-            //save the current state as the last state, for the next time through the loop
-            lastAButtonState = aButtonState;
-            */
-
-            /*
-            if (bButtonState != lastBButtonState) {
-                //if the current state is true, then the button
-                bButtonChangeCounter++;
-                //Delay a little bit to avoid bouncing??? -- but we are handling bouncing, so this may not be necessary now
-                //sleep(50);
-            }
-            //save the current state as the last state, for the next time through the loop
-            lastBButtonState = bButtonState;
-            */
-
-            /*
-            //switches highPower between true and false every 2 changes in button state by checking the modulo of the
-            //button change counter. (modulo gives remainder of division)
-            if (aButtonChangeCounter % 2 == 0) {
-                if (highPower == false) {
-                    highPower = true;
-                } else {
-                    highPower = false;
-                }
-            }
-            */
-
-            /*
-            if (bButtonChangeCounter % 2 == 0) {
-                highPower = false;
-            }
-            */
 
             //Press A to switch to highPower mode (highPower = true)
             //Press B to switch to low-power mode (highPower = false)
