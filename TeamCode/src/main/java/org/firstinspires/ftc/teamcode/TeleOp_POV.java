@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="ACHS Drive", group="Linear OpMode")
+@TeleOp(name="ACHS TeleOp POV", group="Linear OpMode")
 //@Disabled
 public class TeleOp_POV extends LinearOpMode {
 
