@@ -4,14 +4,13 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="ACHS TeleOp Tank", group="Linear OpMode")
+@TeleOp(name="ACHS TeleOp POV", group="Linear OpMode")
 //@Disabled
-public class FTC_AtlanticCoast extends LinearOpMode {
+public class TeleOp_POV extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -30,6 +29,8 @@ public class FTC_AtlanticCoast extends LinearOpMode {
         //Motor power constants
         final double ARM_POWER = 0.5;
 
+        //
+        double powerCoefficient = 1;
         //Motors
         motor_1 = hardwareMap.get(DcMotor.class, "motor_1");
         motor_2 = hardwareMap.get(DcMotor.class, "motor_2");
@@ -83,15 +84,24 @@ public class FTC_AtlanticCoast extends LinearOpMode {
                 sleep(50);
             }
 
-            // Tank Mode uses one stick to control each wheel.
-            // - This requires no math, but it is hard to drive forward slowly and keep straight.
             if (highPower == true) {
-                leftPower = -gamepad1.left_stick_y;
-                rightPower = -gamepad1.right_stick_y;
+                powerCoefficient = 1;
             } else {
-                leftPower = (-gamepad1.left_stick_y * 0.5);
-                rightPower = (-gamepad1.right_stick_y * 0.5);
+                powerCoefficient = 0.5;
             }
+
+            // POV drive mode
+            double drive = gamepad1.left_stick_y;
+            double turn = gamepad1.right_stick_x;
+
+            leftPower  = (drive + turn)*powerCoefficient;
+
+            rightPower = (drive - turn)*powerCoefficient;
+
+
+
+            leftPower = Range.clip(leftPower, -1.0, 1.0);
+            rightPower = Range.clip(rightPower, -1.0, 1.0);
 
             //--------------------------------
             // Arm motor control
@@ -102,16 +112,7 @@ public class FTC_AtlanticCoast extends LinearOpMode {
             //--------------------------------
             // stoneFlap Servo control
             //--------------------------------
-            /*
-            //stoneFlap CRServo control
-            if (gamepad2.dpad_left) {
-                stoneFlap.setPower(-1.0);
-            } else if (gamepad2.dpad_right) {
-                stoneFlap.setPower(1.0);
-            } else {
-                stoneFlap.setPower(0.0);
-            }
-            */
+            
             //May want to make an alternate version of the teleop thst splits the TeleOp program into two threads (FTC_AtlanticCoast_multithreaded ?)
             if (-gamepad2.right_stick_y >= 0.1 || -gamepad2.right_stick_y <= -0.1) {
                 if (-gamepad2.right_stick_y >= 0.1 && -gamepad2.right_stick_y < 0.5) {
