@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="ACHS TeleOp Tank", group="Linear OpMode")
+@TeleOp(name="ACHS Drive", group="Linear OpMode")
 //@Disabled
 public class FTC_AtlanticCoast extends LinearOpMode {
 
