@@ -122,7 +122,7 @@ public class PushbotAutoDriveByEncoder_Linear_Opposite extends LinearOpMode {
         // Movement based on approx measurements from 2019-10-12 Scrimmage 2 VERSION 1 HERE
         //----------------------------------------------------------------------------------
         encoderDrive(DRIVE_SPEED, 63.5, 63.5, 5.0);
-        encoderDrive(TURN_SPEED, 40, -40, 4.0); //Turn left //40 is still too much, try to figure out how to make function that takes in degrees as input OR research using IMU
+        encoderDrive(TURN_SPEED, 40, -40, 4.0); //Turn RIGHT //40 is still too much, try to figure out how to make function that takes in degrees as input OR research using IMU
         encoderDrive(DRIVE_SPEED, 119.38, 119.38, 5.0);
 
         robot.stoneFlap.setPosition(robot.STONE_FLAP_HOME); // Initialize stoneFlap servo position
