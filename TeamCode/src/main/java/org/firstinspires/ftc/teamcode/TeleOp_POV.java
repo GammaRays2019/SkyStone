@@ -91,7 +91,7 @@ public class TeleOp_POV extends LinearOpMode {
             }
 
             // POV drive mode
-            double drive = gamepad1.left_stick_y;
+            double drive = -gamepad1.left_stick_y;
             double turn = gamepad1.right_stick_x;
 
             leftPower  = (drive + turn)*powerCoefficient;
