@@ -20,6 +20,8 @@ public class FTC_AtlanticCoast extends LinearOpMode {
     private DcMotor armMotor = null;
     //private CRServo stoneFlap = null;
     private Servo stoneFlap = null;
+    public Servo leftFoundationServo = null;
+    public Servo rightFoundationServo = null;
 
     @Override
     public void runOpMode() {
@@ -46,6 +48,9 @@ public class FTC_AtlanticCoast extends LinearOpMode {
         //Servo
         stoneFlap = hardwareMap.get(Servo.class, "stone_flap");
         double stoneFlapServoDelta = 0;
+        leftFoundationServo = hardwareMap.get(Servo.class, "left_foundation");
+        rightFoundationServo = hardwareMap.get(Servo.class, "right_foundation");
+        double foundationServoDelta = 0;
 
         //To switch between power levels of drive motors
         boolean highPower = false;
@@ -57,9 +62,12 @@ public class FTC_AtlanticCoast extends LinearOpMode {
 
         //Servo position constants
         final double STONE_FLAP_INIT = 0.5;
+        final double FOUNDATION_SERVO_HOME = 0.0;
 
         //Initialize servo positions
         stoneFlap.setPosition(STONE_FLAP_INIT);
+        leftFoundationServo.setPosition(FOUNDATION_SERVO_HOME);
+        rightFoundationServo.setPosition(1 - FOUNDATION_SERVO_HOME);
 
         waitForStart();
         runtime.reset();
@@ -135,18 +143,30 @@ public class FTC_AtlanticCoast extends LinearOpMode {
                 stoneFlap.setPosition(0.0);
             }
 
+            //Foundation puller servo control
+            if (gamepad1.right_bumper) {
+                foundationServoDelta = -0.02;
+            } else if (gamepad1.left_bumper) {
+                foundationServoDelta = 0.02;
+            } else {
+                foundationServoDelta = 0.0;
+            }
+
             motor_1.setPower(leftPower);
             motor_2.setPower(rightPower);
             armMotor.setPower(armPower);
 
             stoneFlap.setPosition(stoneFlap.getPosition() + stoneFlapServoDelta);
+            leftFoundationServo.setPosition(leftFoundationServo.getPosition() + foundationServoDelta);
+            rightFoundationServo.setPosition(1 - leftFoundationServo.getPosition());
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("highPower", "True/False: " + highPower);
             telemetry.addData("Drive Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
             telemetry.addData("Arm Motor(s)", "arm_motor (%.2f)", armPower);
-            telemetry.addData("Servo(s)", "stone_flap (%.2f)", stoneFlap.getPosition());
+            telemetry.addData("Servo(s)", "stone_flap (%.2f), left_foundation (%.2f), right_foundation (%.2f)",
+                    stoneFlap.getPosition(), leftFoundationServo.getPosition(), rightFoundationServo.getPosition());
             telemetry.update();
         }
     }
