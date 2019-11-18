@@ -38,7 +38,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.hardware.HardwareSkyStone;
 
-@Autonomous(name="Auto: DriveUnderBridge BUTTON SELECTION TEST", group="Pushbot")
+@Autonomous(name="Auto: DriveUnderBridge BUTTON SELECTION", group="Pushbot")
 //@Disabled
 public class Auto__DriveUnderBridge extends LinearOpMode {
 
@@ -54,7 +54,7 @@ public class Auto__DriveUnderBridge extends LinearOpMode {
     HardwareSkyStone         robot   = new HardwareSkyStone();   // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
-    static final double     COUNTS_PER_MOTOR_OUTPUT_REV    = 1120  ;  // For REV HD motor 40:1 gear ratio
+    //static final double     COUNTS_PER_MOTOR_OUTPUT_REV    = 1120  ;  // For REV HD motor 40:1 gear ratio
     static final double     COUNTS_PER_OUTPUT_GEAR_REV     = 67200 ;  // For Drivetrain setup as of 2019/09/28
     //static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_MM   = 90 ;     // For figuring circumference
