@@ -47,10 +47,12 @@ public class HardwareSkyStone
     public DcMotor rightDrive   = null;
     public DcMotor armMotor  = null;
     public Servo   stoneFlap = null;
-
+    public Servo   leftFoundationServo = null;
+    public Servo   rightFoundationServo = null;
 
     public static final double MID_SERVO       =  0.5 ;
     public static final double STONE_FLAP_HOME = 0.5 ;
+    public static final double FOUNDATION_SERVO_HOME = 0.0;
     public static final double ARM_UP_POWER    =  0.45 ;
     public static final double ARM_DOWN_POWER  = -0.45 ;
 
@@ -89,7 +91,11 @@ public class HardwareSkyStone
 
         // Define and initialize ALL installed servos.
         stoneFlap = hwMap.get(Servo.class, "stone_flap");
+        leftFoundationServo = hwMap.get(Servo.class, "left_foundation");
+        rightFoundationServo = hwMap.get(Servo.class, "right_foundation");
         stoneFlap.setPosition(MID_SERVO);
+        leftFoundationServo.setPosition(FOUNDATION_SERVO_HOME);
+        rightFoundationServo.setPosition(1 - FOUNDATION_SERVO_HOME);
     }
  }
 
