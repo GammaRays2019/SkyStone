@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="ACHS TeleOp Tank", group="Linear OpMode")
 //@Disabled
-public class FTC_AtlanticCoast extends LinearOpMode {
+public class TeleOp_Tank extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
