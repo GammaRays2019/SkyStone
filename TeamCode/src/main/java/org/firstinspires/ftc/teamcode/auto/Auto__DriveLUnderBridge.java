@@ -38,9 +38,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.hardware.HardwareSkyStone;
 
-@Autonomous(name="Auto: DriveUnderBridge BUTTON SELECTION", group="Pushbot")
+@Autonomous(name="Auto: DriveLUnderBridge BUTTON SELECTION", group="Pushbot")
 //@Disabled
-public class Auto__DriveUnderBridge extends LinearOpMode {
+public class Auto__DriveLUnderBridge extends LinearOpMode {
 
     public enum AutoMode {
         MODE_NOT_SELECTED,
