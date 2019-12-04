@@ -44,10 +44,14 @@ public class TeleOp_4MotorTank extends LinearOpMode {
         final double STONE_FLAP_INIT = 0.5;
         final double FOUNDATION_SERVO_HOME = 0.0;
 
+        robot.init(hardwareMap);
+
+        /*
         //Initialize servo positions
         robot.stoneFlap.setPosition(STONE_FLAP_INIT);
         robot.leftFoundationServo.setPosition(FOUNDATION_SERVO_HOME);
         robot.rightFoundationServo.setPosition(1 - FOUNDATION_SERVO_HOME);
+         */
 
         waitForStart();
         runtime.reset();
