@@ -54,7 +54,7 @@ public class HardwareMecanumSkyStone
 
     public static final double MID_SERVO       =  0.5 ;
     public static final double STONE_FLAP_HOME = 0.5 ;
-    public static final double FOUNDATION_SERVO_HOME = 0.0;
+    public static final double FOUNDATION_SERVO_HOME = 1.0;
     public static final double ARM_UP_POWER    =  0.45 ;
     public static final double ARM_DOWN_POWER  = -0.45 ;
 
