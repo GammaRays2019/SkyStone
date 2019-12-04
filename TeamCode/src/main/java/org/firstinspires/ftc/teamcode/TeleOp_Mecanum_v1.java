@@ -86,10 +86,10 @@ public class TeleOp_Mecanum_v1 extends LinearOpMode {
             double pivot      = gamepad1.left_stick_x;
 
             // Mecanum control
-            FLPower = (pivot + (vertical + horizontal)) * powerCoefficient;
-            FRPower = (-pivot + (vertical - horizontal)) * powerCoefficient;
-            RLPower = (pivot + (vertical - horizontal)) * powerCoefficient;
-            RRPower = (-pivot + (vertical + horizontal)) * powerCoefficient;
+            FLPower = (pivot + (vertical - horizontal)) * powerCoefficient;
+            FRPower = (-pivot + (vertical + horizontal)) * powerCoefficient;
+            RLPower = (pivot + (vertical + horizontal)) * powerCoefficient;
+            RRPower = (-pivot + (vertical - horizontal)) * powerCoefficient;
 
             //--------------------------------
             // Arm motor control
