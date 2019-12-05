@@ -81,9 +81,9 @@ public class TeleOp_Mecanum_v1 extends LinearOpMode {
             }
 
             // Mecanum drive variables
-            double horizontal = gamepad1.right_stick_x;
-            double vertical   = -gamepad1.right_stick_y;
-            double pivot      = gamepad1.left_stick_x;
+            double horizontal = gamepad1.left_stick_x;
+            double vertical   = -gamepad1.left_stick_y;
+            double pivot      = gamepad1.right_stick_x;
 
             // Mecanum control
             FLPower = (pivot + (vertical - horizontal)) * powerCoefficient;
