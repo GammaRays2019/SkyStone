@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -38,8 +39,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.hardware.HardwareSkyStone;
 
-@Autonomous(name="Auto: DriveLUnderBridge BUTTON SELECTION", group="Pushbot")
-//@Disabled
+@Autonomous(name="Auto: DriveLUnderBridge BUTTON SELECTION", group="Gamma Raider")
+@Disabled
 public class Auto__DriveLUnderBridge extends LinearOpMode {
 
     public enum AutoMode {

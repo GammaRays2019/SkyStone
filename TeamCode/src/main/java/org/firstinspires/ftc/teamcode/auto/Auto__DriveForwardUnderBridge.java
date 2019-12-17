@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -40,7 +41,7 @@ import org.firstinspires.ftc.teamcode.hardware.HardwareSkyStone;
 //Team packages
 
 @Autonomous(name="Auto: DriveForwardUnderBridge", group="Pushbot")
-//@Disabled
+@Disabled
 public class Auto__DriveForwardUnderBridge extends LinearOpMode {
 
     /*
