@@ -1,20 +1,28 @@
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.hardware.HardwareMecanumSkyStone;
-
-@TeleOp(name="ACHS TeleOp 4-Motor Tank", group="Linear OpMode")
-//@Disabled
-public class TeleOp_4MotorTank extends LinearOpMode {
+@TeleOp(name="ACHS TeleOp POV", group="Linear OpMode")
+@Disabled
+public class TeleOp_POV extends LinearOpMode {
 
     // Declare OpMode members.
-    private HardwareMecanumSkyStone robot   = new HardwareMecanumSkyStone();   // Use hardware from HardwareMecanumSkyStone
     private ElapsedTime runtime = new ElapsedTime();
+    private DcMotor motor_1 = null;
+    private DcMotor motor_2 = null;
+    private DcMotor armMotor = null;
+    //private CRServo stoneFlap = null;
+    private Servo stoneFlap = null;
+    public Servo leftFoundationServo = null;
+    public Servo rightFoundationServo = null;
+
 
     @Override
     public void runOpMode() {
@@ -25,33 +33,44 @@ public class TeleOp_4MotorTank extends LinearOpMode {
         //Motor power constants
         final double ARM_POWER = 0.5;
 
+        //
+        double powerCoefficient = 1;
+        //Motors
+        motor_1 = hardwareMap.get(DcMotor.class, "motor_1");
+        motor_2 = hardwareMap.get(DcMotor.class, "motor_2");
+        armMotor = hardwareMap.get(DcMotor.class, "arm_motor");
+
+        motor_1.setDirection(DcMotor.Direction.FORWARD);
+        motor_2.setDirection(DcMotor.Direction.REVERSE);
+        armMotor.setDirection(DcMotor.Direction.FORWARD);
+
+        //CR Servo
+        //stoneFlap = hardwareMap.get(CRServo.class, "stone_flap");
+        //stoneFlap.setDirection(CRServo.Direction.FORWARD);
+
         //Servo
+        stoneFlap = hardwareMap.get(Servo.class, "stone_flap");
         double stoneFlapServoDelta = 0;
+        leftFoundationServo = hardwareMap.get(Servo.class, "left_foundation");
+        rightFoundationServo = hardwareMap.get(Servo.class, "right_foundation");
         double foundationServoDelta = 0;
 
         //To switch between power levels of drive motors
         boolean highPower = false;
 
         //Define and  initialize power variables
-        double FLPower  = 0;
-        double FRPower  = 0;
-        double RLPower  = 0;
-        double RRPower  = 0;
+        double leftPower = 0;
+        double rightPower = 0;
         double armPower = 0;
-        double powerCoefficient = 0.5;
 
         //Servo position constants
         final double STONE_FLAP_INIT = 0.5;
         final double FOUNDATION_SERVO_HOME = 0.0;
 
-        robot.init(hardwareMap);
-
-        /*
         //Initialize servo positions
-        robot.stoneFlap.setPosition(STONE_FLAP_INIT);
-        robot.leftFoundationServo.setPosition(FOUNDATION_SERVO_HOME);
-        robot.rightFoundationServo.setPosition(1 - FOUNDATION_SERVO_HOME);
-         */
+        stoneFlap.setPosition(STONE_FLAP_INIT);
+        leftFoundationServo.setPosition(FOUNDATION_SERVO_HOME);
+        rightFoundationServo.setPosition(1 - FOUNDATION_SERVO_HOME);
 
         waitForStart();
         runtime.reset();
@@ -75,21 +94,24 @@ public class TeleOp_4MotorTank extends LinearOpMode {
                 sleep(50);
             }
 
-            if (highPower) {
+            if (highPower == true) {
                 powerCoefficient = 1;
             } else {
                 powerCoefficient = 0.5;
             }
 
-            // Mecanum drive variables
-            double left   = -gamepad1.left_stick_y;
-            double right  = -gamepad1.right_stick_y;
+            // POV drive mode
+            double drive = -gamepad1.left_stick_y;
+            double turn = gamepad1.right_stick_x;
 
-            // Mecanum control
-            FLPower = left * powerCoefficient;
-            FRPower = right * powerCoefficient;
-            RLPower = left * powerCoefficient;
-            RRPower = right * powerCoefficient;
+            leftPower  = (drive + turn)*powerCoefficient;
+
+            rightPower = (drive - turn)*powerCoefficient;
+
+
+
+            leftPower = Range.clip(leftPower, -1.0, 1.0);
+            rightPower = Range.clip(rightPower, -1.0, 1.0);
 
             //--------------------------------
             // Arm motor control
@@ -100,6 +122,8 @@ public class TeleOp_4MotorTank extends LinearOpMode {
             //--------------------------------
             // stoneFlap Servo control
             //--------------------------------
+            
+            //May want to make an alternate version of the teleop thst splits the TeleOp program into two threads (FTC_AtlanticCoast_multithreaded ?)
             if (-gamepad2.right_stick_y >= 0.1 || -gamepad2.right_stick_y <= -0.1) {
                 if (-gamepad2.right_stick_y >= 0.1 && -gamepad2.right_stick_y < 0.5) {
                     stoneFlapServoDelta = 0.05;
@@ -119,7 +143,7 @@ public class TeleOp_4MotorTank extends LinearOpMode {
             }
 
             if (gamepad2.a) {
-                robot.stoneFlap.setPosition(0.0);
+                stoneFlap.setPosition(0.0);
             }
 
             //Foundation puller servo control
@@ -131,34 +155,21 @@ public class TeleOp_4MotorTank extends LinearOpMode {
                 foundationServoDelta = 0.0;
             }
 
-            //--------------------------------
-            // Assign values to hardware
-            //--------------------------------
+            motor_1.setPower(leftPower);
+            motor_2.setPower(rightPower);
+            armMotor.setPower(armPower);
 
-            // Motors
-            robot.FLDrive.setPower(FLPower);
-            robot.FRDrive.setPower(FRPower);
-            robot.RLDrive.setPower(RLPower);
-            robot.RRDrive.setPower(RRPower);
-            robot.armMotor.setPower(armPower);
-
-            // Servos
-            robot.stoneFlap.setPosition(robot.stoneFlap.getPosition() + stoneFlapServoDelta);
-            robot.leftFoundationServo.setPosition(robot.leftFoundationServo.getPosition() + foundationServoDelta);
-            robot.rightFoundationServo.setPosition(1 - robot.leftFoundationServo.getPosition());
-
-            //-----------------------------
-            // Telemetry
-            //-----------------------------
+            stoneFlap.setPosition(stoneFlap.getPosition() + stoneFlapServoDelta);
+            leftFoundationServo.setPosition(leftFoundationServo.getPosition() + foundationServoDelta);
+            rightFoundationServo.setPosition(1 - leftFoundationServo.getPosition());
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("highPower", "True/False: " + highPower);
-            telemetry.addData("Drive Motors", "FL (%.2f), FR (%.2f), RL (%.2f), RR (%.2f)",
-                    FLPower, FRPower, RLPower, RRPower);
+            telemetry.addData("Drive Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
             telemetry.addData("Arm Motor(s)", "arm_motor (%.2f)", armPower);
             telemetry.addData("Servo(s)", "stone_flap (%.2f), left_foundation (%.2f), right_foundation (%.2f)",
-                    robot.stoneFlap.getPosition(), robot.leftFoundationServo.getPosition(), robot.rightFoundationServo.getPosition());
+                    stoneFlap.getPosition(), leftFoundationServo.getPosition(), rightFoundationServo.getPosition());
             telemetry.update();
         }
     }

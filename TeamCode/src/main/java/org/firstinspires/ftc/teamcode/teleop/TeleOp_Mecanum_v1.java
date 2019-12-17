@@ -1,6 +1,7 @@
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -9,7 +10,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.hardware.HardwareMecanumSkyStone;
 
 @TeleOp(name="ACHS Mecanum TeleOp", group="Linear OpMode")
-//@Disabled
+@Disabled
 public class TeleOp_Mecanum_v1 extends LinearOpMode {
 
     // Declare OpMode members.
@@ -38,7 +39,9 @@ public class TeleOp_Mecanum_v1 extends LinearOpMode {
         double RLPower  = 0;
         double RRPower  = 0;
         double armPower = 0;
-        double powerCoefficient = 0.5;
+        final double LOW_POWER = 0.3;
+        final double HIGH_POWER = 1.0;
+        double powerCoefficient = LOW_POWER;
 
         // Servo position constants
         final double STONE_FLAP_INIT = 0.5;
@@ -75,9 +78,9 @@ public class TeleOp_Mecanum_v1 extends LinearOpMode {
             }
 
             if (highPower) {
-                powerCoefficient = 1;
+                powerCoefficient = HIGH_POWER;
             } else {
-                powerCoefficient = 0.5;
+                powerCoefficient = LOW_POWER;
             }
 
             // Mecanum drive variables
@@ -86,10 +89,10 @@ public class TeleOp_Mecanum_v1 extends LinearOpMode {
             double pivot      = gamepad1.right_stick_x;
 
             // Mecanum control
-            FLPower = (pivot + (vertical - horizontal)) * powerCoefficient;
-            FRPower = (-pivot + (vertical + horizontal)) * powerCoefficient;
-            RLPower = (pivot + (vertical + horizontal)) * powerCoefficient;
-            RRPower = (-pivot + (vertical - horizontal)) * powerCoefficient;
+            FLPower = (pivot + (vertical + horizontal)) * powerCoefficient;
+            FRPower = (-pivot + (vertical - horizontal)) * powerCoefficient;
+            RLPower = (pivot + (vertical - horizontal)) * powerCoefficient;
+            RRPower = (-pivot + (vertical + horizontal)) * powerCoefficient;
 
             //--------------------------------
             // Arm motor control
