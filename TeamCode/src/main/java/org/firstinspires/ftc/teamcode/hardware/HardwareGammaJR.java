@@ -37,7 +37,7 @@ public class HardwareGammaJR {
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         stoneServo = hwMap.get(Servo.class, "stone_servo");
-        foundServo = hwMap.get(Servo.class, "found_servo");
+        foundServo = hwMap.get(Servo.class, "found_servo"); //Comment
     }
 
 }

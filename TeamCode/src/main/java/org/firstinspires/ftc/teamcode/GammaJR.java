@@ -27,7 +27,7 @@ public class GammaJR extends LinearOpMode {
             double right = gamepad1.right_stick_y;
 
             robot.leftDrive.setPower(left);
-            robot.rightDrive.setPower(right);
+            robot.rightDrive.setPower(right); //Comment
 
         }
     }
