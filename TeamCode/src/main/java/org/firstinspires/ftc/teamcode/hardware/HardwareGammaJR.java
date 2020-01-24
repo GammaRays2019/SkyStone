@@ -10,7 +10,8 @@ public class HardwareGammaJR {
     public DcMotor rightDrive = null;
     public DcMotor leftDrive = null;
     public Servo   stoneServo = null;
-    public Servo   foundServo = null;
+    public Servo   leftFoundServo = null;
+    public Servo   rightFoundServo = null;
 
     HardwareMap hwMap = null;
 
@@ -37,7 +38,8 @@ public class HardwareGammaJR {
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         stoneServo = hwMap.get(Servo.class, "stone_servo");
-        foundServo = hwMap.get(Servo.class, "found_servo"); //Comment
+        leftFoundServo = hwMap.get(Servo.class, "l_found_servo");
+        rightFoundServo = hwMap.get(Servo.class, "r_found_servo");
     }
 
 }
