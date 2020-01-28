@@ -1,5 +1,5 @@
 
-package org.firstinspires.ftc.teamcode.teleop;
+package org.firstinspires.ftc.teamcode.teleop.tank;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

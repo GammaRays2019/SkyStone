@@ -1,5 +1,5 @@
 
-package org.firstinspires.ftc.teamcode.teleop;
+package org.firstinspires.ftc.teamcode.teleop.tank;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -9,9 +9,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="ACHS TeleOp GTA", group="Linear OpMode")
+@TeleOp(name="ACHS TeleOp POV", group="Linear OpMode")
 @Disabled
-public class TeleOp_GTA extends LinearOpMode {
+public class TeleOp_POV extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -63,14 +63,9 @@ public class TeleOp_GTA extends LinearOpMode {
         double rightPower = 0;
         double armPower = 0;
 
-        //POV drive variables
-        double drive = 0;
-        double turn = 0;
-
         //Servo position constants
         final double STONE_FLAP_INIT = 0.5;
         final double FOUNDATION_SERVO_HOME = 0.0;
-
 
         //Initialize servo positions
         stoneFlap.setPosition(STONE_FLAP_INIT);
@@ -105,19 +100,14 @@ public class TeleOp_GTA extends LinearOpMode {
                 powerCoefficient = 0.5;
             }
 
-            //GTA drive mode
-            if (gamepad1.left_trigger > 0){
-                drive = -gamepad1.left_trigger;
-            } else if (gamepad1.right_trigger > 0){
-                drive = gamepad1.right_trigger;
-            }
-
-            turn = gamepad1.left_stick_x;
-
+            // POV drive mode
+            double drive = -gamepad1.left_stick_y;
+            double turn = gamepad1.right_stick_x;
 
             leftPower  = (drive + turn)*powerCoefficient;
 
             rightPower = (drive - turn)*powerCoefficient;
+
 
 
             leftPower = Range.clip(leftPower, -1.0, 1.0);
