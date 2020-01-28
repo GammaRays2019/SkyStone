@@ -58,8 +58,7 @@ public class GammaJR_richie extends LinearOpMode {
 
             robot.stoneServo.setPosition(robot.stoneServo.getPosition() + stoneServoDelta);
             robot.leftFoundServo.setPosition(robot.leftFoundServo.getPosition() + foundServoDelta);
-            robot.rightFoundServo.setPosition(robot.rightFoundServo.getPosition() - foundServoDelta);
-
+            robot.rightFoundServo.setPosition(robot.rightFoundServo.getPosition() + foundServoDelta);
         }
     }
 
