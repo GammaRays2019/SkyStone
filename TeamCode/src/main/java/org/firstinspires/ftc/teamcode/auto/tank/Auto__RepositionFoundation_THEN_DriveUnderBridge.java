@@ -27,22 +27,24 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.auto;
+package org.firstinspires.ftc.teamcode.auto.tank;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import org.firstinspires.ftc.teamcode.hardware.HardwareSkyStone;
 
 //Team packages
 
-@Autonomous(name="Auto: DriveForwardUnderBridge", group="Pushbot")
+@Autonomous(name="Auto: RepositionFoundation_THEN_DriveUnderBridge BUTTON SELECTION", group="Pushbot")
 @Disabled
-public class Auto__DriveForwardUnderBridge extends LinearOpMode {
+public class Auto__RepositionFoundation_THEN_DriveUnderBridge extends LinearOpMode {
 
     /*
     On 11/8/2019, had to put all foundation servo declaration and initialization stuff in this class
@@ -144,16 +146,16 @@ public class Auto__DriveForwardUnderBridge extends LinearOpMode {
 
         switch (autoMode) {
             case RED_ALLIANCE_BUILDING_SITE_SIDE:
-                driveForwardUnderBridge();
+                RepositionFoundationAndParkOpposite();
                 break;
             case RED_ALLIANCE_DEPOT_SIDE:
-                driveForwardUnderBridge();
+                TurnRightUnderBridgeFromParked();
                 break;
             case BLUE_ALLIANCE_BUILDING_SITE_SIDE:
-                driveForwardUnderBridge();
+                RepositionFoundationAndPark();
                 break;
             case BLUE_ALLIANCE_DEPOT_SIDE:
-                driveForwardUnderBridge();
+                TurnLeftUnderBridgeFromParked();
                 break;
             case MODE_NOT_SELECTED:
                 //This one should not happen
@@ -196,7 +198,7 @@ public class Auto__DriveForwardUnderBridge extends LinearOpMode {
         // New code that starts aligned diagonally with building site tape but not touching it
         encoderDrive(DRIVE_SPEED, 20, 20, 5.0);
         encoderTurnByDegrees(TURN_SPEED, 60); //Turn RIGHT to face foundation
-        encoderDrive(DRIVE_SPEED, 50, 50, 5.0);
+        encoderDrive(DRIVE_SPEED, 52, 52, 5.0);
 
         /* Old code that starts in building site
         encoderDrive(DRIVE_SPEED, 79.25, 79.25, 5.0); //Drive forward to prepare for pulling foundation[Task 1, Step 1]
@@ -212,7 +214,7 @@ public class Auto__DriveForwardUnderBridge extends LinearOpMode {
         encoderDrive(DRIVE_SPEED, 68.7, 68.7, 5.0); //Drive forward towards bridge[Task 2, Step 2]
         sleep(500);
         encoderTurnByDegrees(TURN_SPEED, -105); //Turn LEFT to face wall across from staring position[Task 2, Step 3]
-        encoderDrive(DRIVE_SPEED, 106.7, 106.7, 5.0); //Drive forward towards wall[Task 2, Step 4]
+        encoderDrive(DRIVE_SPEED, 108.7, 108.7, 5.0); //Drive forward towards wall[Task 2, Step 4]
         encoderTurnByDegrees(TURN_SPEED, -100); //Turn LEFT to face wall next to foundation, across from bridge[Task 2, Step 5]
         encoderDrive(DRIVE_SPEED, 65, 65, 5.0); //Drive forward towards wall[Task 2, Step 6]
         encoderTurnByDegrees(TURN_SPEED, -105); //Turn LEFT to face long side of foundation[Task 2, Step 7]
@@ -231,18 +233,26 @@ public class Auto__DriveForwardUnderBridge extends LinearOpMode {
 
     //Red Building Site Side
     private void RepositionFoundationAndParkOpposite() {
+
         // Task 1 --- Pull foundation
         // Task 2 --- Push foundation into building site
         // Task 3 --- Park under bridge
 
-        // New code that starts aligned diagonally with building site tape but not touching it
-        encoderDrive(DRIVE_SPEED, 20, 20, 5.0);
-        encoderTurnByDegrees(TURN_SPEED, -60); //Turn LEFT to face foundation
-        encoderDrive(DRIVE_SPEED, 50, 50, 5.0);
+        //NewER code that starts with back straight on wall
+        encoderDrive(DRIVE_SPEED, 26.67, 26.67, 5.0);
+        encoderTurnByDegrees(TURN_SPEED, 90); //RIGHT
+        encoderDrive(DRIVE_SPEED, 43.8, 43.8, 5.0);
+        encoderTurnByDegrees(TURN_SPEED, -90); //LEFT
+        encoderDrive(DRIVE_SPEED, 48.26, 48.26, 5.0);
+
+//        // New code that starts aligned diagonally with building site tape but not touching it
+//        encoderDrive(DRIVE_SPEED, 20, 20, 5.0);
+//        encoderTurnByDegrees(TURN_SPEED, -60); //Turn LEFT to face foundation
+//        encoderDrive(DRIVE_SPEED, 52, 52, 5.0);
 
         /* Old code that starts in building site
         encoderDrive(DRIVE_SPEED, 79.25, 79.25, 5.0); //Drive forward to prepare for pulling foundation[Task 1, Step 1]
-         */
+        */
 
         setFoundationServoPosition(FOUNDATION_SERVO_DOWN); //Put foundation puller down[Task 1, Step 2]
         sleep(1000);
@@ -251,24 +261,63 @@ public class Auto__DriveForwardUnderBridge extends LinearOpMode {
         setFoundationServoPosition(FOUNDATION_SERVO_UP); //Move foundation puller back up[Task 1, Step 4]
         sleep(1000);
         encoderTurnByDegrees(TURN_SPEED, -105); //Turn LEFT to face bridge to prepare for pushing foundation[Task 2, Step 1]
-        encoderDrive(DRIVE_SPEED, 68.7, 68.7, 5.0); //Drive forward towards bridge[Task 2, Step 2]
+        encoderDrive(DRIVE_SPEED, 70.7, 70.7, 5.0); //Drive forward towards bridge[Task 2, Step 2]
         sleep(500);
         encoderTurnByDegrees(TURN_SPEED, 105); //Turn RIGHT to face wall across from staring position[Task 2, Step 3]
-        encoderDrive(DRIVE_SPEED, 106.7, 106.7, 5.0); //Drive forward towards wall[Task 2, Step 4]
+        encoderDrive(DRIVE_SPEED, 108.7, 108.7, 5.0); //Drive forward towards wall[Task 2, Step 4]
         encoderTurnByDegrees(TURN_SPEED, 100); //Turn RIGHT to face wall next to foundation, across from bridge[Task 2, Step 5]
         encoderDrive(DRIVE_SPEED, 65, 65, 5.0); //Drive forward towards wall[Task 2, Step 6]
         encoderTurnByDegrees(TURN_SPEED, 105); //Turn RIGHT to face long side of foundation[Task 2, Step 7]
         encoderDrive(DRIVE_SPEED, 83, 83, 8.0); //Drive forward to push foundation[Task 2, Step 8]
         encoderDrive(DRIVE_SPEED, -14.5, -14.5, 5.0); //Driving forward continued???[Task 2, Step 8???]
-                                                                            //Originally meant to be backing up
-        encoderTurnByDegrees(TURN_SPEED, 120); //Turn LEFT to orient towards bridge[Task 3, Step 1]
+        //Originally meant to be backing up
+        encoderTurnByDegrees(TURN_SPEED, 120); //Turn RIGHT to orient towards bridge[Task 3, Step 1]
         encoderDrive(DRIVE_SPEED, 120, 120, 5.0); //Drive forward towards bridge[Task 3, Step 2]
         /*
-        encoderTurnByDegrees(TURN_SPEED, -55);
+        encoderTurnByDegrees(TURN_SPEED, 55);
         encoderDrive(DRIVE_SPEED, 70.5, 70.5, 5.0); //Driving forward continued[Task 3, Step 3???]
-        encoderTurnByDegrees(TURN_SPEED, 45); //straighten up to drive under bridge
+        encoderTurnByDegrees(TURN_SPEED, -45); //Straighten up to drive under bridge
         encoderDrive(DRIVE_SPEED, 20, 15, 5.0); //Driving forward continued[Task 3, Step 4???]
          */
+
+//        // Task 1 --- Pull foundation
+//        // Task 2 --- Push foundation into building site
+//        // Task 3 --- Park under bridge
+//
+//        // New code that starts aligned diagonally with building site tape but not touching it
+//        encoderDrive(DRIVE_SPEED, 20, 20, 5.0);
+//        encoderTurnByDegrees(TURN_SPEED, -60); //Turn LEFT to face foundation
+//        encoderDrive(DRIVE_SPEED, 52, 52, 5.0);
+//
+//        /* Old code that starts in building site
+//        encoderDrive(DRIVE_SPEED, 79.25, 79.25, 5.0); //Drive forward to prepare for pulling foundation[Task 1, Step 1]
+//         */
+//
+//        setFoundationServoPosition(FOUNDATION_SERVO_DOWN); //Put foundation puller down[Task 1, Step 2]
+//        sleep(1000);
+//        encoderDrive(DRIVE_SPEED, -63.15, -63.15, 5.0); //Drive in reverse to pull foundation[Task 1, Step 3]
+//        sleep(1000);
+//        setFoundationServoPosition(FOUNDATION_SERVO_UP); //Move foundation puller back up[Task 1, Step 4]
+//        sleep(1000);
+//        encoderTurnByDegrees(TURN_SPEED, -105); //Turn LEFT to face bridge to prepare for pushing foundation[Task 2, Step 1]
+//        encoderDrive(DRIVE_SPEED, 68.7, 68.7, 5.0); //Drive forward towards bridge[Task 2, Step 2]
+//        sleep(500);
+//        encoderTurnByDegrees(TURN_SPEED, 105); //Turn RIGHT to face wall across from staring position[Task 2, Step 3]
+//        encoderDrive(DRIVE_SPEED, 108.7, 108.7, 5.0); //Drive forward towards wall[Task 2, Step 4]
+//        encoderTurnByDegrees(TURN_SPEED, 100); //Turn RIGHT to face wall next to foundation, across from bridge[Task 2, Step 5]
+//        encoderDrive(DRIVE_SPEED, 65, 65, 5.0); //Drive forward towards wall[Task 2, Step 6]
+//        encoderTurnByDegrees(TURN_SPEED, 105); //Turn RIGHT to face long side of foundation[Task 2, Step 7]
+//        encoderDrive(DRIVE_SPEED, 83, 83, 8.0); //Drive forward to push foundation[Task 2, Step 8]
+//        encoderDrive(DRIVE_SPEED, -14.5, -14.5, 5.0); //Driving forward continued???[Task 2, Step 8???]
+//                                                                            //Originally meant to be backing up
+//        encoderTurnByDegrees(TURN_SPEED, 120); //Turn LEFT to orient towards bridge[Task 3, Step 1]
+//        encoderDrive(DRIVE_SPEED, 120, 120, 5.0); //Drive forward towards bridge[Task 3, Step 2]
+//        /*
+//        encoderTurnByDegrees(TURN_SPEED, -55);
+//        encoderDrive(DRIVE_SPEED, 70.5, 70.5, 5.0); //Driving forward continued[Task 3, Step 3???]
+//        encoderTurnByDegrees(TURN_SPEED, 45); //straighten up to drive under bridge
+//        encoderDrive(DRIVE_SPEED, 20, 15, 5.0); //Driving forward continued[Task 3, Step 4???]
+//         */
     }
 
     private void setFoundationServoPosition(double position) {
