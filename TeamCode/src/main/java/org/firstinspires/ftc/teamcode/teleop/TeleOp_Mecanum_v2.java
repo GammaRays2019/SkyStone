@@ -24,6 +24,9 @@ public class TeleOp_Mecanum_v2 extends LinearOpMode {
 
         // Motor power constants
         final double ARM_POWER = 0.5;
+        final double LOW_POWER = 0.25;
+        final double MEDIUM_POWER = 0.5;
+        final double HIGH_POWER = 1.0;
 
         // Servos
         double stoneFlapServoDelta = 0;
@@ -36,11 +39,11 @@ public class TeleOp_Mecanum_v2 extends LinearOpMode {
         double RRPower  = 0;
         double armPower = 0;
         // To switch between power levels of drive motors
-        final double LOW_POWER = 0.25;
-        final double MEDIUM_POWER = 0.5;
-        final double HIGH_POWER = 1.0;
         double powerCoefficient = MEDIUM_POWER;
         String powerMode = "Medium";
+        // To switch between power levels of arm motor
+        double[] armPowerLevels = {0.25, ARM_POWER, 1.0};
+        int armPowerIndex = 1;
 
         /*
         // Servo position constants
@@ -107,7 +110,31 @@ public class TeleOp_Mecanum_v2 extends LinearOpMode {
             //--------------------------------
             // Arm motor control
             //--------------------------------
-            armPower = (-gamepad2.left_stick_y * ARM_POWER);
+
+            // Code for increasing or decreasing arm power level
+            // Control on Gamepad 2
+            // Press right_bumper to increase
+            // Press left_bumper to decrease
+            if (gamepad2.right_bumper){
+                // Don't let the index value exceed the size of the array
+                if (armPowerIndex >= armPowerLevels.length-1) {
+                    armPowerIndex = armPowerLevels.length-1;
+                } else {
+                    armPowerIndex++;
+                    sleep(100);
+                }
+            }
+            if (gamepad2.left_bumper) {
+                // Don't let the index value be lower than zero
+                if (armPowerIndex <= 0) {
+                    armPowerIndex = 0;
+                } else {
+                    armPowerIndex--;
+                    sleep(100);
+                }
+            }
+
+            armPower = (-gamepad2.left_stick_y * armPowerLevels[armPowerIndex]);
             armPower = Range.clip(armPower, -1.0, 1.0);
 
             //--------------------------------
@@ -135,7 +162,9 @@ public class TeleOp_Mecanum_v2 extends LinearOpMode {
                 robot.stoneFlap.setPosition(0.0);
             }
 
-            //Foundation puller servo control
+            //--------------------------------
+            // Foundation puller servo control
+            //--------------------------------
             if (gamepad1.right_bumper) {
                 foundationServoDelta = -0.02;
             } else if (gamepad1.left_bumper) {
@@ -169,9 +198,15 @@ public class TeleOp_Mecanum_v2 extends LinearOpMode {
             telemetry.addData("Power Level", "powerMode: " + powerMode + " (" + powerCoefficient + ")");
             telemetry.addData("Drive Motors", "FL (%.2f), FR (%.2f), RL (%.2f), RR (%.2f)",
                     FLPower, FRPower, RLPower, RRPower);
+            telemetry.addLine("Arm Power Level: " + armPowerLevels[armPowerIndex] + " (" + armPowerLevels.length + " levels available" );
             telemetry.addData("Arm Motor(s)", "arm_motor (%.2f)", armPower);
             telemetry.addData("Servo(s)", "stone_flap (%.2f), left_foundation (%.2f), right_foundation (%.2f)",
                     robot.stoneFlap.getPosition(), robot.leftFoundationServo.getPosition(), robot.rightFoundationServo.getPosition());
+
+//            telemetry.addData("armPowerIndex", armPowerIndex);
+//            telemetry.addData("armPowerLevels[armPowerIndex]", armPowerLevels[armPowerIndex]);
+//            telemetry.addData("armPowerLevels.length", armPowerLevels.length);
+
             telemetry.update();
         }
     }
