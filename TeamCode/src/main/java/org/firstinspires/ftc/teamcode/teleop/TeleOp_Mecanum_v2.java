@@ -198,7 +198,7 @@ public class TeleOp_Mecanum_v2 extends LinearOpMode {
             telemetry.addData("Power Level", "powerMode: " + powerMode + " (" + powerCoefficient + ")");
             telemetry.addData("Drive Motors", "FL (%.2f), FR (%.2f), RL (%.2f), RR (%.2f)",
                     FLPower, FRPower, RLPower, RRPower);
-            telemetry.addLine("Arm Power Level: " + armPowerLevels[armPowerIndex] + " (" + armPowerLevels.length + " levels available" );
+            telemetry.addLine("Arm Power Level: " + armPowerLevels[armPowerIndex] + " (" + armPowerLevels.length + " levels available )" );
             telemetry.addData("Arm Motor(s)", "arm_motor (%.2f)", armPower);
             telemetry.addData("Servo(s)", "stone_flap (%.2f), left_foundation (%.2f), right_foundation (%.2f)",
                     robot.stoneFlap.getPosition(), robot.leftFoundationServo.getPosition(), robot.rightFoundationServo.getPosition());
