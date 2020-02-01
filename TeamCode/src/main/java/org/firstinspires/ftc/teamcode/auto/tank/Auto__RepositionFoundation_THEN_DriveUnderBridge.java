@@ -399,6 +399,7 @@ public class Auto__RepositionFoundation_THEN_DriveUnderBridge extends LinearOpMo
             robot.leftDrive.setPower(-power);
             robot.rightDrive.setPower(power);
         } else {
+            //Turning right
             robot.leftDrive.setPower(power);
             robot.rightDrive.setPower(-power);
         }
