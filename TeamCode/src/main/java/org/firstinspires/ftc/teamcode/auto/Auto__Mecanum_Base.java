@@ -175,6 +175,24 @@ public class Auto__Mecanum_Base extends LinearOpMode {
     public void RepositionFoundationAndParkOpposite() {
     }
 
+    //Does not take into consideration whether or not the stone is a Skystone
+    //For Red Alliance
+    public void ScoreRandomStoneRed() {
+        //Distance values will need to be adjusted later
+        encoderDriveStraight(DRIVE_SPEED, 74.0, 5.0);
+        setFoundationServoPosition(FOUNDATION_SERVO_UP); //Should place foundation arm down to grab stone
+        sleep(500);
+        encoderDriveStraight(DRIVE_SPEED, 15.0, 5.0);
+        //encoderDriveStraight(DRIVE_SPEED, -20.0, 5.0);
+        encoderTurnByDegrees(1.0, 90); //Turn 90deg right
+        setFoundationServoPosition(FOUNDATION_SERVO_DOWN);
+        sleep(500);
+        //encoderStrafe(DRIVE_SPEED, 10.0, 5.0); //Strafe 10cm right
+        encoderDriveStraight(DRIVE_SPEED, 80.0, 5.0); //Should move robot under bridge
+        //setFoundationServoPosition(FOUNDATION_SERVO_DOWN); //Should release stone
+        encoderDriveStraight(0.25, -10.0, 5.0); //Back up under bridge
+    }
+
     //-----------------------------------
     // Low-Level Functions Below
     //-----------------------------------
