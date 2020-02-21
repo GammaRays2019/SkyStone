@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.hardware;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -48,7 +49,8 @@ public class HardwareMecanumSkyStone
     public DcMotor RLDrive   = null; // Rear Left Drive
     public DcMotor RRDrive   = null; // Rear Right Drive
     public DcMotor armMotor  = null;
-    public Servo   stoneFlap = null;
+    //public Servo   stoneFlap = null;
+    public CRServo linearStoneFlap = null;
     public Servo   leftFoundationServo = null;
     public Servo   rightFoundationServo = null;
 
@@ -100,10 +102,11 @@ public class HardwareMecanumSkyStone
         armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize ALL installed servos.
-        stoneFlap = hwMap.get(Servo.class, "stone_flap");
+        //stoneFlap = hwMap.get(Servo.class, "stone_flap");
+        linearStoneFlap = hwMap.get(CRServo.class, "stone_flap");
         leftFoundationServo = hwMap.get(Servo.class, "left_foundation");
         rightFoundationServo = hwMap.get(Servo.class, "right_foundation");
-        stoneFlap.setPosition(MID_SERVO);
+        //stoneFlap.setPosition(MID_SERVO);
         leftFoundationServo.setPosition(FOUNDATION_SERVO_HOME);
         rightFoundationServo.setPosition(1 - FOUNDATION_SERVO_HOME);
     }
