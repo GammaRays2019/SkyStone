@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -156,26 +157,36 @@ public class TeleOp_Mecanum_Tank extends LinearOpMode {
             //--------------------------------
             // stoneFlap Servo control
             //--------------------------------
-            if (-gamepad2.right_stick_y >= 0.1 || -gamepad2.right_stick_y <= -0.1) {
-                if (-gamepad2.right_stick_y >= 0.1 && -gamepad2.right_stick_y < 0.5) {
-                    stoneFlapServoDelta = 0.05;
-                } else if (-gamepad2.right_stick_y >= 0.5) {
-                    stoneFlapServoDelta = 0.10;
-                } else if (-gamepad2.right_stick_y <= -0.1 && -gamepad2.right_stick_y > -0.5) {
-                    stoneFlapServoDelta = -0.05;
-                } else if (-gamepad2.right_stick_y <= -0.5) {
-                    stoneFlapServoDelta = -0.10;
-                }
-            } else if (gamepad2.x) {
-                stoneFlapServoDelta = -0.01;
-            } else if (gamepad2.b) {
-                stoneFlapServoDelta = 0.01;
-            } else {
-                stoneFlapServoDelta = 0.0;
-            }
+//            if (-gamepad2.right_stick_y >= 0.1 || -gamepad2.right_stick_y <= -0.1) {
+////                if (-gamepad2.right_stick_y >= 0.1 && -gamepad2.right_stick_y < 0.5) {
+////                    stoneFlapServoDelta = 0.05;
+////                } else if (-gamepad2.right_stick_y >= 0.5) {
+////                    stoneFlapServoDelta = 0.10;
+////                } else if (-gamepad2.right_stick_y <= -0.1 && -gamepad2.right_stick_y > -0.5) {
+////                    stoneFlapServoDelta = -0.05;
+////                } else if (-gamepad2.right_stick_y <= -0.5) {
+////                    stoneFlapServoDelta = -0.10;
+////                }
+////            } else if (gamepad2.x) {
+////                stoneFlapServoDelta = -0.01;
+////            } else if (gamepad2.b) {
+////                stoneFlapServoDelta = 0.01;
+////            } else {
+////                stoneFlapServoDelta = 0.0;
+////            }
+////
+////            if (gamepad2.a) {
+////                robot.stoneFlap.setPosition(0.0);
+////            }
 
-            if (gamepad2.a) {
-                robot.stoneFlap.setPosition(0.0);
+            if (gamepad2.b) {
+                robot.linearStoneFlap.setDirection(DcMotorSimple.Direction.FORWARD);
+                robot.linearStoneFlap.setPower(1.0);
+            } else if (gamepad2.x) {
+                robot.linearStoneFlap.setDirection(DcMotorSimple.Direction.REVERSE);
+                robot.linearStoneFlap.setPower(1.0);
+            } else {
+                robot.linearStoneFlap.setPower(0.0);
             }
 
             //--------------------------------
@@ -201,7 +212,7 @@ public class TeleOp_Mecanum_Tank extends LinearOpMode {
             robot.armMotor.setPower(armPower);
 
             // Servos
-            robot.stoneFlap.setPosition(robot.stoneFlap.getPosition() + stoneFlapServoDelta);
+            //robot.stoneFlap.setPosition(robot.stoneFlap.getPosition() + stoneFlapServoDelta);
             robot.leftFoundationServo.setPosition(robot.leftFoundationServo.getPosition() + foundationServoDelta);
             robot.rightFoundationServo.setPosition(1 - robot.leftFoundationServo.getPosition());
 
@@ -216,8 +227,12 @@ public class TeleOp_Mecanum_Tank extends LinearOpMode {
                     FLPower, FRPower, RLPower, RRPower);
             telemetry.addLine("Arm Power Level: " + armPowerLevels[armPowerIndex] + " (" + armPowerLevels.length + " levels available )" );
             telemetry.addData("Arm Motor(s)", "arm_motor (%.2f)", armPower);
-            telemetry.addData("Servo(s)", "stone_flap (%.2f), left_foundation (%.2f), right_foundation (%.2f)",
-                    robot.stoneFlap.getPosition(), robot.leftFoundationServo.getPosition(), robot.rightFoundationServo.getPosition());
+//            telemetry.addData("Servo(s)", "stone_flap (%.2f), left_foundation (%.2f), right_foundation (%.2f)",
+//                    robot.stoneFlap.getPosition(), robot.leftFoundationServo.getPosition(), robot.rightFoundationServo.getPosition());
+            telemetry.addData("Servo(s)", "left_foundation (%.2f), right_foundation (%.2f)",
+                    robot.leftFoundationServo.getPosition(), robot.rightFoundationServo.getPosition());
+            telemetry.addData("Linear Stone Flap", "Direction, Power (%.2f)",
+                    robot.linearStoneFlap.getDirection(), robot.linearStoneFlap.getPower());
             telemetry.update();
         }
     }
