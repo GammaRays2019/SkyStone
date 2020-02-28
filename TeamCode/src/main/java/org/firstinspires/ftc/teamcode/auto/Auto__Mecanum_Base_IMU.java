@@ -149,7 +149,7 @@ public class Auto__Mecanum_Base_IMU extends LinearOpMode {
                 mrobot.RRDrive.getCurrentPosition());
         telemetry.update();
 
-        mrobot.stoneFlap.setPosition(mrobot.STONE_FLAP_HOME); // Initialize stoneFlap servo position
+        //mrobot.stoneFlap.setPosition(mrobot.STONE_FLAP_HOME); // Initialize stoneFlap servo position
         sleep(1000); // pause for servos to move
 
         ////////////////////////////

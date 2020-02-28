@@ -164,12 +164,10 @@ public class TeleOp_Mecanum_v2 extends LinearOpMode {
 //            }
 
             if (gamepad2.b) {
-                robot.linearStoneFlap.setDirection(DcMotorSimple.Direction.FORWARD);
                 robot.linearStoneFlap.setPower(1.0);
             } else if (gamepad2.x) {
-                robot.linearStoneFlap.setDirection(DcMotorSimple.Direction.REVERSE);
-                robot.linearStoneFlap.setPower(1.0);
-            } else if (gamepad2.y){
+                robot.linearStoneFlap.setPower(-1.0);
+            } else {
                 robot.linearStoneFlap.setPower(0.0);
             }
 
@@ -215,8 +213,8 @@ public class TeleOp_Mecanum_v2 extends LinearOpMode {
 //                    robot.stoneFlap.getPosition(), robot.leftFoundationServo.getPosition(), robot.rightFoundationServo.getPosition());
             telemetry.addData("Servo(s)", "left_foundation (%.2f), right_foundation (%.2f)",
                     robot.leftFoundationServo.getPosition(), robot.rightFoundationServo.getPosition());
-            telemetry.addData("Linear Stone Flap", "Direction, Power (%.2f)",
-                    robot.linearStoneFlap.getDirection(), robot.linearStoneFlap.getPower());
+            telemetry.addData("Linear Stone Flap", "Power (%.2f)",
+                    robot.linearStoneFlap.getPower());
 
 //            telemetry.addData("armPowerIndex", armPowerIndex);
 //            telemetry.addData("armPowerLevels[armPowerIndex]", armPowerLevels[armPowerIndex]);

@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -104,6 +105,7 @@ public class HardwareMecanumSkyStone
         // Define and initialize ALL installed servos.
         //stoneFlap = hwMap.get(Servo.class, "stone_flap");
         linearStoneFlap = hwMap.get(CRServo.class, "stone_flap");
+        linearStoneFlap.setDirection(DcMotorSimple.Direction.FORWARD);
         leftFoundationServo = hwMap.get(Servo.class, "left_foundation");
         rightFoundationServo = hwMap.get(Servo.class, "right_foundation");
         //stoneFlap.setPosition(MID_SERVO);
